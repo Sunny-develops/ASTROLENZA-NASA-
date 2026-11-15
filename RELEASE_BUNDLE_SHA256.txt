@@ -1,4 +1,4 @@
 ASTROLENZA_GitHub_Release.zip
-SHA-256: 2ed95e7c4c8076045896613bab313aee898a5ac42791a963d9d101e0aade3111
+SHA-256: eab9b0624c49df6fbcd49fda8d2f6d9c7dd789f169af93f09b8e63ddee7970da
 Size: approximately 58 MB compressed (75 files in the release package)
-The full executable and visual payload is staged for the one-time import using Publish-To-GitHub.ps1.
+The full executable and visual payload is staged for one-time import using Publish-To-GitHub.ps1.
