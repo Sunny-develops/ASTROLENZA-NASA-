@@ -1,4 +1,5 @@
 ASTROLENZA_GitHub_Release.zip
-SHA-256: df684684f318bb9f42f2884a398701040757571432616c0ab3c3414f37a4a938
-Size: 58 MB compressed (87 files in release package)
-Note: Archive is prepared separately and is not yet committed to this repository.
+SHA-256: fcebaca38cc6c2e8a65ecbbdf2b853ac2125b3a3c42373696b244f393e481fc1
+Size: approximately 58 MB compressed
+Contents: 87 files (visor, briefing, PDFs, source milestones, engineering notes, QA evidence and publication documentation)
+The release ZIP is prepared separately for the one-time binary import.
