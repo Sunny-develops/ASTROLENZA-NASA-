@@ -23,20 +23,37 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  verify-release:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      ready: \${{ steps.release-check.outputs.ready }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
-      - name: Verify release payload is present
+      - name: Check that the complete visor and briefing payload exists
+        id: release-check
+        shell: bash
         run: |
-          test -f 02_Final_Visor_Prototype/ASTROLENZA_Visor_v19.html
-          test -f 01_Submission_Demo/ASTROLENZA_Mission_Intelligence_Briefing_v19.html
-          test -f 01_Submission_Demo/ASTROLENZA_Mission_Intelligence_Briefing_v19.pdf
-          test -f index.html
+          if [[ -f 02_Final_Visor_Prototype/ASTROLENZA_Visor_v19.html \
+             && -f 01_Submission_Demo/ASTROLENZA_Mission_Intelligence_Briefing_v19.html \
+             && -f 01_Submission_Demo/ASTROLENZA_Mission_Intelligence_Briefing_v19.pdf \
+             && -f index.html ]]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Pages deployment skipped: the complete v19 payload has not been imported yet."
+          fi
+
+  deploy:
+    needs: verify-release
+    if: needs.verify-release.outputs.ready == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: \${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static site
