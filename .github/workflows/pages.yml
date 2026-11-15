@@ -1,8 +1,16 @@
-name: Deploy static ASTROLENZA site
+name: Deploy ASTROLENZA to GitHub Pages
 
 on:
   push:
     branches: [main]
+    paths:
+      - 'index.html'
+      - '01_Submission_Demo/**'
+      - '02_Final_Visor_Prototype/**'
+      - '03_Source_and_Engineering_Notes/**'
+      - '04_Visual_Evidence/**'
+      - 'docs/**'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -11,24 +19,30 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: github-pages
+  cancel-in-progress: false
 
 jobs:
   deploy:
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Configure Pages
+      - name: Check out repository
+        uses: actions/checkout@v6
+      - name: Verify release payload is present
+        run: |
+          test -f 02_Final_Visor_Prototype/ASTROLENZA_Visor_v19.html
+          test -f 01_Submission_Demo/ASTROLENZA_Mission_Intelligence_Briefing_v19.html
+          test -f 01_Submission_Demo/ASTROLENZA_Mission_Intelligence_Briefing_v19.pdf
+          test -f index.html
+      - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-      - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v4
         with:
           path: .
-      - name: Deploy to GitHub Pages
+      - name: Deploy static site
         id: deployment
         uses: actions/deploy-pages@v4
