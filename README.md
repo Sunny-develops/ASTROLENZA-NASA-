@@ -24,6 +24,10 @@ The repository's documentation and engineering framework are now published: prod
 - [Security policy](SECURITY.md)
 - [Project and asset rights notice](LICENSE-NOTICE.md)
 
+## Publishing the complete release
+
+The complete runnable package is staged separately. Use [GITHUB_SETUP.md](GITHUB_SETUP.md) and [Publish-To-GitHub.ps1](Publish-To-GitHub.ps1) to transfer the verified ZIP through a local Git clone. The script checks package hashes, refuses to overwrite uncommitted local changes, and does not force-push.
+
 ## What v19 currently simulates
 
 The visor model contains 13 direct synthetic channels: suit pressure, oxygen partial pressure, carbon-dioxide partial pressure, coolant flow, pump RPM, skin temperature, coolant temperature differential, heart rate, respiration, SpO₂, battery state, movement load and radiation rate. Core temperature (`TCORE`) is inferred from the thermal/workload model rather than directly sensed.
