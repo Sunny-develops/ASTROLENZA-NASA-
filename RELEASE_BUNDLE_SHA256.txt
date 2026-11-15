@@ -1,0 +1,4 @@
+ASTROLENZA_GitHub_Release.zip
+SHA-256: df684684f318bb9f42f2884a398701040757571432616c0ab3c3414f37a4a938
+Size: 58 MB compressed (87 files in release package)
+Note: Archive is prepared separately and is not yet committed to this repository.
