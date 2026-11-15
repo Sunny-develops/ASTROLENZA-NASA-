@@ -1,14 +1,11 @@
-name: Deploy ASTROLENZA to GitHub Pages
+name: Deploy ASTROLENZA Visor to GitHub Pages
 
 on:
   push:
     branches: [main]
     paths:
       - 'index.html'
-      - '01_Submission_Demo/**'
       - '02_Final_Visor_Prototype/**'
-      - '03_Source_and_Engineering_Notes/**'
-      - '04_Visual_Evidence/**'
       - 'docs/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
@@ -26,22 +23,19 @@ jobs:
   verify-release:
     runs-on: ubuntu-latest
     outputs:
-      ready: \${{ steps.release-check.outputs.ready }}
+      ready: ${{ steps.release-check.outputs.ready }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
-      - name: Check that the complete visor and briefing payload exists
+      - name: Verify visor module exists
         id: release-check
         shell: bash
         run: |
-          if [[ -f 02_Final_Visor_Prototype/ASTROLENZA_Visor_v19.html \
-             && -f 01_Submission_Demo/ASTROLENZA_Mission_Intelligence_Briefing_v19.html \
-             && -f 01_Submission_Demo/ASTROLENZA_Mission_Intelligence_Briefing_v19.pdf \
-             && -f index.html ]]; then
+          if [[ -f 02_Final_Visor_Prototype/ASTROLENZA_Visor_v19.html && -f index.html ]]; then
             echo "ready=true" >> "$GITHUB_OUTPUT"
           else
             echo "ready=false" >> "$GITHUB_OUTPUT"
-            echo "Pages deployment skipped: the complete v19 payload has not been imported yet."
+            echo "Visor module or landing page is missing; deployment skipped."
           fi
 
   deploy:
@@ -50,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: \${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
